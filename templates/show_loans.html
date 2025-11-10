@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <title>Loans Overview</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f9;
+            margin: 20px;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #2C3E50;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: white;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+        tr:hover {
+            background-color: #dfe6e9;
+        }
+    </style>
+</head>
+<body>
+    <h2>Loans Above ₹100,000</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Loan ID</th>
+                <th>Customer Name</th>
+                <th>Loan Amount (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loans %}
+            <tr>
+                <td>{{ loan['Loan_ID'] }}</td>
+                <td>{{ loan['Cust_Name'] }}</td>
+                <td>{{ loan['Loan_Amount'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

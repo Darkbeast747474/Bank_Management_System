@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+    <title>Show Accounts</title>
+    <style>
+        /* General body styling */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Heading style */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2C3E50;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table header */
+th {
+    background-color: #34495e;
+    color: #fff;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Table rows */
+tr:nth-child(even) {
+    background-color: #ecf0f1;
+}
+
+tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+/* Table cell */
+td {
+    padding: 12px 15px;
+    font-size: 14px;
+}
+
+/* Add hover effect on rows */
+tr:hover {
+    background-color: #dfe6e9;
+    cursor: pointer;
+}
+
+/* Optional: Responsive design for smaller screens */
+@media (max-width: 768px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    th {
+        background-color: transparent;
+        color: #2c3e50;
+        padding: 10px;
+        text-align: right;
+    }
+
+    td {
+        padding: 10px;
+        position: relative;
+        padding-left: 50%;
+        border: none;
+    }
+
+    td::before {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        content: attr(data-label);
+    }
+}
+    </style>
+</head>
+<body>
+    <h2>Accounts Overview</h2>
+    <table border="1">
+        <tr>
+            <th>Account No</th>
+            <th>Customer Name</th>
+            <th>Customer Address</th>
+            <th>Branch Name</th>
+            <th>Account Type</th>
+            <th>Balance</th>
+        </tr>
+        {% for acc in accounts %}
+        <tr>
+            <td>{{ acc['Account_No'] }}</td>
+            <td>{{ acc['Cust_Name'] }}</td>
+            <td>{{ acc['Cust_Address'] }}</td>
+            <td>{{ acc['Branch_Name'] }}</td>
+            <td>{{ acc['Account_Type'] }}</td>
+            <td>{{ acc['Balance'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,88 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafc;
+    margin: 0;
+    color: #111;
+    padding: 0;
+    display: flex;
+    scrollbar-width: none;
+    overflow: auto;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar {
+    background: #2C3E50;
+    color: white;
+    height: 100vh;
+    width: 200px;
+    transition: width 0.3s;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar.contracted {
+    width: 60px;
+}
+
+.sidebar .burger {
+    cursor: pointer;
+    font-size: 26px;
+    padding: 15px;
+    user-select: none;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#main-content {
+    margin-left: 220px;
+    padding: 20px;
+    transition: margin-left 0.3s;
+    flex-grow: 1;
+}
+
+#main-content.contracted {
+    margin-left: 60px;
+}
+
+.nav_list a i {
+    color: #fff;
+    border-radius: 30px;
+}
+
+.nav_list a:hover {
+    background-color: #1a252f;
+    border-radius: 30px;
+}
+
+.nav_list a.active {
+    color: #326ca6;
+    background-color: #f6f6f6;
+    border-radius: 30px;
+}
+
+.nav_list a.active i {
+    color: #326ca6;
+    /* Highlight color for active icon */
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Banking Dashboard — Flask Integrated</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar expanded">
+        <div class="burger" id="burger">
+            &#9776; <!-- burger icon -->
+        </div>
+        <ul class="nav_list">
+            <li>
+                <a class="active" href="#" onclick="load(event, '/dashboard', this)">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="load(event, '/show_accounts', this)">
+                    <i class="fas fa-user-circle"></i> Accounts
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="load(event, '/loans', this)">
+                    <i class="fas fa-file-invoice-dollar"></i> Loans
+                </a>
+            </li>
+            <li>
+                <a href="/logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+
+
+    </nav>
+
+    <div id="main-content" class="expanded">
+
+        <iframe id="contentFrame" src="/dashboard" style="width: 100%; height: 80vh; border:none;"></iframe>
+
+    </div>
+
+
+    <script>
+
+        const burger = document.getElementById('burger');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        burger.addEventListener('click', () => {
+            sidebar.classList.toggle('contracted');
+            mainContent.classList.toggle('contracted');
+        });
+
+
+        function load(event, url, clickedElement) {
+            event.preventDefault();
+            document.getElementById("contentFrame").src = url;
+
+            document.querySelectorAll(".nav_list a").forEach((navLink) => {
+                navLink.classList.remove("active");
+            });
+            clickedElement.classList.add("active");
+        }
+
+    </script>
+</body>
+
+</html>

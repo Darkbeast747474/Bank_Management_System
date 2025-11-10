@@ -1,0 +1,114 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Banking Dashboard — Flask Integrated</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Banking Dashboard</h1>
+        <div>FRIDAY</div>
+    </header>
+    <div class="container">
+        <section class="grid">
+            <div class="card">
+                <h3>Total Deposits</h3>
+                <div id="totalDeposits" class="big">₹0.00</div>
+            </div>
+            <div class="card">
+                <h3>Total Loans</h3>
+                <div id="totalLoans" class="big">₹0.00</div>
+            </div>
+            <div class="card">
+                <h3>Deficit Funds</h3>
+                <div id="deficitFunds" class="big danger">₹0.00</div>
+            </div>
+        </section>
+
+        <canvas id="mainChart" height="160"></canvas>
+
+        <h2>Transactions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Account</th>
+                    <th>Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="activityTbody"></tbody>
+        </table>
+
+        <h2>Balance Per Branch</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Branch ID</th>
+                    <th>Branch</th>
+                    <th>Balance (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="balanceTbody"></tbody>
+        </table>
+    </div>
+
+    <footer>Powered by Flask & FRIDAY Assistant</footer>
+</body>
+
+<script>
+    async function loadData() {
+        const res = await fetch('/api/dashboard-data');
+        const data = await res.json();
+        renderDashboard(data);
+    }
+
+    function formatINR(num) {
+        return '₹' + Number(num).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    }
+
+    function renderDashboard(data) {
+        const { total_deposits, total_loans, deficit, transactions, branch_balances } = data;
+        document.getElementById('totalDeposits').textContent = formatINR(total_deposits);
+        document.getElementById('totalLoans').textContent = formatINR(total_loans);
+        document.getElementById('deficitFunds').textContent = formatINR(deficit);
+
+        const tbody = document.getElementById('activityTbody');
+        tbody.innerHTML = '';
+        transactions.forEach(t => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${t.id}</td><td>${t.date}</td><td>${t.type}</td><td>${t.account}</td><td>${formatINR(t.amount)}</td>`;
+            tbody.appendChild(tr);
+        });
+
+        const balanceTbody = document.getElementById('balanceTbody');
+        balanceTbody.innerHTML = '';
+        branch_balances.forEach(b => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${b.Branch_ID}</td><td>${b.Branch_Name}</td><td>${formatINR(b.Total_Balance)}</td>`;
+            balanceTbody.appendChild(tr);
+        });
+
+        renderChart(total_deposits, total_loans, deficit);
+    }
+
+    let chartInstance;
+    function renderChart(deposits, loans, deficit) {
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        if (chartInstance) chartInstance.destroy();
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Deposits', 'Loans', 'Deficit'],
+                datasets: [{ data: [deposits, loans, deficit], backgroundColor: ['#3b82f6', '#6366f1', '#ef4444'] }]
+            },
+            options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+    }
+
+    loadData();
+</script>
